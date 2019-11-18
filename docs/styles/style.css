@@ -1,0 +1,37 @@
+Body {
+    background: #F0EDE8;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+    height: 100vh;
+}
+h1, h2 {
+    color: #373737;
+    width: 100%;
+    text-align: center;
+}
+h1 {
+    align-self: flex-start;
+}
+
+path, line {
+    fill: none;
+    stroke: grey;
+}
+.tick line {
+    opacity: 0;
+}
+.tick text {
+    text-transform: capitalize;
+}
+text {
+  	font-size: 13px;
+}
+.bar:hover {
+    stroke: black;
+    stroke-width: 1px;
+}
+.bar {
+    /* fill: #72A5B8; */
+}
