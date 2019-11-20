@@ -5,9 +5,9 @@ const rawData = results.results.bindings
 
 // main function
 function main() {
-	let cleanedData = convertData(rawData);
-    let barChartArrData = createBarChartArr(cleanedData);
-    let staticBarChartArrData = createStaticBarChartArr(cleanedData);
+	var cleanedData = convertData(rawData);
+    var barChartArrData = createBarChartArr(cleanedData);
+    var staticBarChartArrData = createStaticBarChartArr(cleanedData);
     d3Chart(barChartArrData)
 }
 
@@ -122,7 +122,7 @@ function convertData(item) {
         }
 	})
 
-	let newArr = item;
+	var newArr = item;
     // console.log(newArr)
 	return newArr;
 
@@ -130,8 +130,8 @@ function convertData(item) {
 
 
 function createBarChartArr(data) {
-    let i = 0
-    let objectsArr = []
+    var i = 0
+    var objectsArr = []
 
     data.forEach(el => {
         i ++
@@ -150,9 +150,8 @@ function createBarChartArr(data) {
 
 
 function createStaticBarChartArr(data) {
-    let i = 0
-    let hashArr = {}
-    let hout = 0
+    var i = 0
+    var hashArr = {}
 
     data.forEach(el => {
         // check of de value al in de hashArr zit
@@ -165,7 +164,7 @@ function createStaticBarChartArr(data) {
     })
 
     // vorm nieuw object van de hashArr
-    let newArr = []
+    var newArr = []
     Object.keys(hashArr).forEach(material => {
         newArr.push({
             material,
