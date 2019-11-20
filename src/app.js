@@ -8,8 +8,7 @@ function main() {
 	let cleanedData = convertData(rawData);
     let barChartArrData = createBarChartArr(cleanedData);
     let staticBarChartArrData = createStaticBarChartArr(cleanedData);
-    makeD3Chart(staticBarChartArrData);
-    // console.log(barChartArrData)
+    d3Chart(barChartArrData)
 }
 
 function splitStringCalcAverage(data) {
@@ -138,7 +137,7 @@ function createBarChartArr(data) {
         i ++
         objectsArr.push({
             id: i,
-            year: el.date.value.toString(),
+            year: el.date.value,
             material: el.mediumLabel.value,
             cords: [{
                 lat: el.lat.value,
@@ -179,70 +178,24 @@ function createStaticBarChartArr(data) {
 
 main();
 
-function makeD3Chart(cleanArr) {
-    // Example from https://bl.ocks.org/caravinden/eb0e5a2b38c8815919290fa838c6b63b
+function d3Chart(data) {
+	// Get huidige jaar
+	var dt = new Date().getFullYear();
+	var materialsPerYear = d3.nest()
+		.key(function(d) { return d.year; })
+		.key(function(d) { return d.material; })
+		.rollup(function(v) { return v.length})
+  		.entries(data)
+		.map(function(group) {
+		    return {
+		    	year: Number(group.key),
+		    	materials: group.values
+		    }
+		})
+		.filter(function(group) { return group.year <= dt; });
 
-    // Own Data
-    var data = cleanArr;
-    data.sort(function(a, b) {
-        return d3.ascending(a.count, b.count)
-    })
-    console.log(data)
-
-
-    // set the dimensions and margins of the graph
-    var margin = {top: 20, right: 20, bottom: 30, left: 60},
-        width = 800 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
-
-    // set the ranges
-    var y = d3.scaleBand()
-              .range([height, 0])
-              .padding(0.1);
-
-    var x = d3.scaleLinear()
-              .range([0, width])
-              .nice();
-
-    var myColor = d3.scaleOrdinal().domain(data)
-                    .range(["#f0c989", "#f0c989", "#5d5b5b", "#6e3d34", "#b08d57", "#b29700", "#9b7653", "#caa472"])
-
-    // append the svg object to the body of the page
-    // append a 'group' element to 'svg'
-    // moves the 'group' element to the top left margin
-    var svg = d3.select("body").append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform",
-              "translate(" + margin.left + "," + margin.top + ")");
-
-      // format the data
-      data.forEach(function(d) {
-        d.count = +d.count;
-      });
-
-      // Scale the range of the data in the domains
-      x.domain([0, d3.max(data, function(d){ return d.count + 250; })])
-      y.domain(data.map(function(d) { return d.material; }));
-      //y.domain([0, d3.max(data, function(d) { return d.count; })]);
-
-      // append the rectangles for the bar chart
-      svg.selectAll(".bar")
-          .data(data)
-          .enter().append("rect")
-          .attr("class", "bar")
-          .attr("width", function(d) {return x(d.count); } )
-          .attr("y", function(d) { return y(d.material); })
-          .attr("fill", function(d){return myColor(d.material) })
-          .attr("height", y.bandwidth());
-
-      // add the x Axis
-      svg.append("g")
-          .attr("transform", "translate(0," + height + ")")
-          .call(d3.axisBottom(x));
-
-      // add the y Axis
-      svg.append("g")
-          .call(d3.axisLeft(y));
+		materialsPerYear.sort(function(x, y){
+		   return d3.ascending(x.year, y.year);
+		})
+	console.log(materialsPerYear)
 }
