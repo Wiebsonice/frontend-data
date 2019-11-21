@@ -196,5 +196,27 @@ function d3Chart(data) {
 		materialsPerYear.sort(function(x, y){
 		   return d3.ascending(x.year, y.year);
 		})
-	console.log(materialsPerYear)
+		console.log(materialsPerYear)
+	timeOut(materialsPerYear)
+}
+function timeOut(data){
+	var result = {ijzer: 0, hout: 0, brons: 0, aarde: 0, klei: 0, koper: 0, goud: 0, papier: 0};
+	var i = 0;
+	var intervalTimer = setInterval(function(){
+		i ++;
+		// console.log(i)
+		counter(data[i], result)
+		if (i == 10){
+			clearInterval(intervalTimer)
+			result = counter(data[i], result)
+		}
+	}, 250);
+}
+function counter(dataRow, result) {
+	// result = {ijzer: 0, hout: 0, brons: 0, aarde: 0, klei: 0, koper: 0, goud: 0, papier: 0};
+	dataRow.materials.forEach(function(material) {
+		result[material.key] += material.value
+	})
+	// console.log(result)
+	return result
 }
