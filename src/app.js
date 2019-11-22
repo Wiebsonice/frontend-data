@@ -199,31 +199,33 @@ function d3Chart(data) {
 		})
 		// console.log(materialsPerYear)
 	var allYears = testObj(materialsPerYear)
+	makeD3Chart(allYears);
 	// console.log(allYears)
-	timeOut(allYears)
+	// timeOut(allYears)
 }
 
 function timeOut(data){
 	var yearDate = new Date().getFullYear();
 	var result = {ijzer: 0, hout: 0, brons: 0, aarde: 0, klei: 0, koper: 0, goud: 0};
 	var i = 0;
-	var intervalTimer = setInterval(function(){
-		i ++;
-		var year = i
-
-		var testdit = counter(data[i], result)
-		if (i >= yearDate){
-			clearInterval(intervalTimer)
-			result = counter(data[i], result)
-			console.log("result: ", result)
-			console.log("Year: ", year)
-		}
-	}, 1);
+	// var intervalTimer = setInterval(function(){
+	// 	i ++;
+	// 	var year = i
+	//
+	// 	var testdit = counter(data[i], result)
+	// 	if (i >= yearDate){
+	// 		clearInterval(intervalTimer)
+	// 		result = counter(data[i], result)
+	// 		console.log("result: ", result)
+	// 		console.log("Year: ", year)
+	// 	}
+	// }, 1);
 }
+
 function counter(dataRow, result) {
-	console.log(dataRow)
+	// console.log(dataRow)
 	dataRow.materials.forEach(function(material) {
-		result[material.key] += material.values
+		result[material.key] += material.value
 	})
 	return result
 }
@@ -239,7 +241,7 @@ function testObj(dataa) {
 		yearsObject[i] = {
 			year: i,
 			materials: [{
-				key: "hout", values: 0
+				key: "hout", value: 0
 			}]
 		};
 		overwriteWithRealData(i, dataa, yearsObject)
@@ -255,9 +257,117 @@ function testObj(dataa) {
 			}
 		})
 	}
-	// console.log(yearsObject)
 	return yearsObject
-	// console.log(yearsArr)
 }
 
-// testObj()
+function makeD3Chart(allYears) {
+	console.log(allYears)
+	var data = [{
+                "name": "aarde",
+                "value": 482,
+        },
+            {
+                "name": "brons",
+                "value": 253,
+        },
+            {
+                "name": "goud",
+                "value": 296,
+        },
+            {
+                "name": "hout",
+                "value": 6913,
+        },
+            {
+                "name": "ijzer",
+                "value": 121,
+        },
+            {
+                "name": "klei",
+                "value": 105,
+        },
+            {
+                "name": "koper",
+                "value":  147,
+        }];
+
+        //sort bars based on value
+        data = data.sort(function (a, b) {
+            return d3.ascending(a.value, b.value);
+        })
+
+		// set the dimensions and margins of the graph
+		var margin = {top: 20, right: 20, bottom: 30, left: 70},
+		    width = 960 - margin.left - margin.right,
+		    height = 500 - margin.top - margin.bottom;
+
+		// set the ranges
+		var y = d3.scaleBand()
+		          .range([height, 0])
+		          .padding(0.1);
+
+		var x = d3.scaleLinear()
+		          .range([0, width]);
+
+		// append the svg object to the body of the page
+		// append a 'group' element to 'svg'
+		// moves the 'group' element to the top left margin
+		var svg = d3.select("body").append("svg")
+		    .attr("width", width + margin.left + margin.right)
+		    .attr("height", height + margin.top + margin.bottom)
+		  .append("g")
+		    .attr("transform",
+		          "translate(" + margin.left + "," + margin.top + ")");
+
+		  // format the data
+		  data.forEach(function(d) {
+		    d.value = +d.value;
+		  });
+
+		  // Scale the range of the data in the domains
+		  x.domain([0, d3.max(data, function(d){ return d.value; })])
+		  y.domain(data.map(function(d) { return d.name; }));
+		  //y.domain([0, d3.max(data, function(d) { return d.value; })]);
+
+		  var bars = svg.selectAll(".bar")
+            .enter()
+            .append("g")
+		    .data(data)
+		    .enter().append("rect")
+		      .attr("class", "bar")
+		      //.attr("x", function(d) { return x(d.value); })
+		      .attr("width", function(d) {return x(d.value); } )
+		      .attr("y", function(d) { return y(d.name); })
+		      .attr("height", y.bandwidth());
+
+		  // add the x Axis
+		  svg.append("g")
+		      .attr("transform", "translate(0," + height + ")")
+		      .call(d3.axisBottom(x));
+
+		  // add the y Axis
+		  svg.append("g")
+		      .call(d3.axisLeft(y));
+
+			var yearDate = new Date().getFullYear();
+  			var result = {ijzer: 0, hout: 0, brons: 0, aarde: 0, klei: 0, koper: 0, goud: 0};
+  			var i = 0;
+
+			var interval = d3.interval(function(elapsed) {
+			// if (elapsed > 2600) {
+			//   interval.stop(); // <== !!!
+			//   return;
+			// }
+			  	i ++;
+		  		var year = i
+				console.log(i)
+				console.log(counter(allYears[i], result))
+		  		if (i >= yearDate){
+		  			result = counter(allYears[i], result)
+		  			console.log("result: ", result)
+		  			console.log("Year: ", year)
+					interval.stop();
+		  		}
+			  // console.log(elapsed);
+		  }, 5);
+}
