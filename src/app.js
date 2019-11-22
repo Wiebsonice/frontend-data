@@ -179,6 +179,7 @@ main();
 
 function d3Chart(data) {
 	// Get huidige jaar
+
 	var dt = new Date().getFullYear();
 	var materialsPerYear = d3.nest()
 		.key(function(d) { return d.year; })
@@ -196,27 +197,66 @@ function d3Chart(data) {
 		materialsPerYear.sort(function(x, y){
 		   return d3.ascending(x.year, y.year);
 		})
-		console.log(materialsPerYear)
-	timeOut(materialsPerYear)
+		// console.log(materialsPerYear)
+	var allYears = makeFullObj(materialsPerYear)
+	// console.log(allYears)
+	timeOut(allYears)
 }
+
 function timeOut(data){
-	var result = {ijzer: 0, hout: 0, brons: 0, aarde: 0, klei: 0, koper: 0, goud: 0, papier: 0};
+	var yearDate = new Date().getFullYear();
+	var result = {ijzer: 0, hout: 0, brons: 0, aarde: 0, klei: 0, koper: 0, goud: 0};
 	var i = 0;
 	var intervalTimer = setInterval(function(){
 		i ++;
-		// console.log(i)
-		counter(data[i], result)
-		if (i == 10){
+		var year = i
+
+		var testdit = counter(data[i], result)
+		if (i >= yearDate){
 			clearInterval(intervalTimer)
 			result = counter(data[i], result)
+			console.log("result: ", result)
+			console.log("Year: ", year)
 		}
-	}, 250);
+	}, 1);
 }
 function counter(dataRow, result) {
-	// result = {ijzer: 0, hout: 0, brons: 0, aarde: 0, klei: 0, koper: 0, goud: 0, papier: 0};
 	dataRow.materials.forEach(function(material) {
 		result[material.key] += material.value
 	})
-	// console.log(result)
 	return result
 }
+
+
+function makeFullObj(dataa) {
+	var yearDate = new Date().getFullYear();
+	var i;
+	var yearsObject = {}
+	var yearsArr = []
+
+	for (i = 0; i <= yearDate; i++) {
+		yearsObject[i] = {
+			year: i,
+			materials: [{
+				key: "hout", value: 0
+			}]
+		};
+		overwriteWithRealData(i, dataa, yearsObject)
+	}
+
+	function overwriteWithRealData(counter, data, yearsObject) {
+		data.forEach(singleData => {
+			if (yearsObject[counter].year == singleData.year){
+				yearsObject[counter] = {
+					year: counter,
+					materials: singleData.materials
+				}
+			}
+		})
+	}
+	// console.log(yearsObject)
+	return yearsObject
+	// console.log(yearsArr)
+}
+
+// testObj()
