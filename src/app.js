@@ -198,7 +198,7 @@ function d3Chart(data) {
 		   return d3.ascending(x.year, y.year);
 		})
 		// console.log(materialsPerYear)
-	var allYears = makeFullObj(materialsPerYear)
+	var allYears = testObj(materialsPerYear)
 	// console.log(allYears)
 	timeOut(allYears)
 }
@@ -221,14 +221,15 @@ function timeOut(data){
 	}, 1);
 }
 function counter(dataRow, result) {
+	console.log(dataRow)
 	dataRow.materials.forEach(function(material) {
-		result[material.key] += material.value
+		result[material.key] += material.values
 	})
 	return result
 }
 
 
-function makeFullObj(dataa) {
+function testObj(dataa) {
 	var yearDate = new Date().getFullYear();
 	var i;
 	var yearsObject = {}
@@ -238,7 +239,7 @@ function makeFullObj(dataa) {
 		yearsObject[i] = {
 			year: i,
 			materials: [{
-				key: "hout", value: 0
+				key: "hout", values: 0
 			}]
 		};
 		overwriteWithRealData(i, dataa, yearsObject)
