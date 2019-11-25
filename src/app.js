@@ -261,35 +261,36 @@ function testObj(dataa) {
 }
 
 function makeD3Chart(allYears) {
-	console.log(allYears)
-	var data = [{
-                "name": "aarde",
-                "value": 482,
-        },
-            {
-                "name": "brons",
-                "value": 253,
-        },
-            {
-                "name": "goud",
-                "value": 296,
-        },
-            {
-                "name": "hout",
-                "value": 6913,
-        },
-            {
-                "name": "ijzer",
-                "value": 121,
-        },
-            {
-                "name": "klei",
-                "value": 105,
-        },
-            {
-                "name": "koper",
-                "value":  147,
-        }];
+	// console.log(allYears)
+		var data = [{
+					"key": "ijzer",
+					"value": 121,
+	        },
+	            {
+					"key": "hout",
+	                "value": 6913,
+	        },
+	            {
+					"key": "brons",
+	                "value": 253,
+	        },
+	            {
+					"key": "aarde",
+	                "value": 482,
+	        },
+	            {
+					"key": "klei",
+	                "value": 105,
+	        },
+	            {
+					"name": "koper",
+	                "value":  147,
+	        },
+	            {
+					"key": "goud",
+	                "value": 296,
+	        }];
+		console.log(data)
 
         //sort bars based on value
         data = data.sort(function (a, b) {
@@ -326,7 +327,7 @@ function makeD3Chart(allYears) {
 
 		  // Scale the range of the data in the domains
 		  x.domain([0, d3.max(data, function(d){ return d.value; })])
-		  y.domain(data.map(function(d) { return d.name; }));
+		  y.domain(data.map(function(d) { return d.key; }));
 		  //y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
 		  var bars = svg.selectAll(".bar")
@@ -337,7 +338,7 @@ function makeD3Chart(allYears) {
 		      .attr("class", "bar")
 		      //.attr("x", function(d) { return x(d.value); })
 		      .attr("width", function(d) {return x(d.value); } )
-		      .attr("y", function(d) { return y(d.name); })
+		      .attr("y", function(d) { return y(d.key); })
 		      .attr("height", y.bandwidth());
 
 		  // add the x Axis
@@ -349,25 +350,37 @@ function makeD3Chart(allYears) {
 		  svg.append("g")
 		      .call(d3.axisLeft(y));
 
+
 			var yearDate = new Date().getFullYear();
   			var result = {ijzer: 0, hout: 0, brons: 0, aarde: 0, klei: 0, koper: 0, goud: 0};
   			var i = 0;
 
+			console.log(d3.map(counter(allYears[0], result)).entries())
+
 			var interval = d3.interval(function(elapsed) {
-			// if (elapsed > 2600) {
-			//   interval.stop(); // <== !!!
-			//   return;
-			// }
-			  	i ++;
 		  		var year = i
 				console.log(i)
-				console.log(counter(allYears[i], result))
+				// console.log(counter(allYears[i], result))
+				// console.log(d3.map(counter(allYears[i], result)).entries())
+				updateBars(d3.map(counter(allYears[i], result)).entries())
 		  		if (i >= yearDate){
-		  			result = counter(allYears[i], result)
+		  			result = d3.map(counter(allYears[i], result)).entries()
 		  			console.log("result: ", result)
 		  			console.log("Year: ", year)
 					interval.stop();
 		  		}
+				i ++;
 			  // console.log(elapsed);
-		  }, 5);
+		  }, 1);
+
+		  function updateBars(data) {
+			data = data.sort(function (a, b) {
+	            return d3.ascending(a.value, b.value);
+	        })
+			
+			var bars = svg.selectAll(".bar")
+			bars
+		  	.data(data)
+		  	.attr("width", function(d) { return x(d.value); } )
+		  }
 }
