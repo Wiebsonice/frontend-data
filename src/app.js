@@ -290,12 +290,19 @@ function makeD3Chart(allYears) {
 					"key": "goud",
 	                "value": 296,
 	        }];
+
+			var myColor = d3.scaleOrdinal().domain(data)
+  							.range(["#f0c989", "#f0c989", "#5d5b5b", "#6e3d34", "#b08d57", "#b29700", "#9b7653", "#caa472"])
+
 		console.log(data)
 
         //sort bars based on value
         data = data.sort(function (a, b) {
             return d3.ascending(a.value, b.value);
         })
+
+		// tooltip:
+		var tooltip = d3.select("body").append("div").attr("class", "toolTip");
 
 		// set the dimensions and margins of the graph
 		var margin = {top: 20, right: 20, bottom: 30, left: 70},
@@ -339,6 +346,10 @@ function makeD3Chart(allYears) {
 		      //.attr("x", function(d) { return x(d.value); })
 		      .attr("width", function(d) {return x(d.value); } )
 		      .attr("y", function(d) { return y(d.key); })
+		      .on("mouseleave", function(d){
+  		          tooltip
+  		            .style("opacity", 0)
+  		      })
 		      .attr("height", y.bandwidth());
 
 		  // add the x Axis
@@ -347,15 +358,16 @@ function makeD3Chart(allYears) {
 		      .call(d3.axisBottom(x));
 
 		  // add the y Axis
-		  svg.append("g")
-		      .call(d3.axisLeft(y));
+		  // svg.append("g")
+		  // 	  .attr("class", "yaxis")
+		  //     .call(d3.axisLeft(y));
 
 
 			var yearDate = new Date().getFullYear();
   			var result = {ijzer: 0, hout: 0, brons: 0, aarde: 0, klei: 0, koper: 0, goud: 0};
-  			var i = 0;
+  			var i = 999;
 
-			console.log(d3.map(counter(allYears[0], result)).entries())
+			console.log(d3.map(counter(allYears[999], result)).entries())
 
 			var interval = d3.interval(function(elapsed) {
 		  		var year = i
@@ -371,16 +383,30 @@ function makeD3Chart(allYears) {
 		  		}
 				i ++;
 			  // console.log(elapsed);
-		  }, 1);
+		  }, 10);
 
 		  function updateBars(data) {
 			data = data.sort(function (a, b) {
 	            return d3.ascending(a.value, b.value);
 	        })
-			
+
+			x.domain([0, d3.max(data, function(d){ return d.value; })])
+			// y.domain(data.map(function(d) { return d.key; }));
+			// svg.append("g")
+  		    //   .call(d3.axisLeft(y));
+
 			var bars = svg.selectAll(".bar")
 			bars
 		  	.data(data)
 		  	.attr("width", function(d) { return x(d.value); } )
+			.attr("fill", function(d){return myColor(d.key) })
+			.on("mousemove", function(d){
+				  tooltip
+					.style("left", d3.event.pageX - 50 + "px")
+					.style("top", d3.event.pageY - 70 + "px")
+					.style("opacity", 1)
+					.style("display", "inline-block")
+					.html((d.key) + "<br>" + (d.value));
+			  })
 		  }
 }
