@@ -342,7 +342,6 @@ function makeD3Chart(allYears) {
 		  // add the y Axis
 		  svg.append("g")
 		  	  .attr("class", "yAxis")
-			  .tickSize(-(height-margin.top-margin.bottom), 0, 0)
 		      .call(d3.axisLeft(y));
 
 			var yearDate = new Date().getFullYear();
