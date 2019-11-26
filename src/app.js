@@ -362,26 +362,28 @@ function makeD3Chart(allYears) {
 		  	  .attr("class", "yAxis")
 		      .call(d3.axisLeft(y));
 
-			var yearDate = new Date().getFullYear();
-  			var result = {ijzer: 0, hout: 0, brons: 0, aarde: 0, klei: 0, koper: 0, goud: 0};
-  			var i = 999;
 
-			var interval = d3.interval(function(elapsed) {
-		  		var year = i
-				updateBars(d3.map(counter(allYears[i], result)).entries())
-				updateYear(i)
+			  function intervalFunc(allYears) {
+			  	var yearDate = new Date().getFullYear();
+			  	var result = {ijzer: 0, hout: 0, brons: 0, aarde: 0, klei: 0, koper: 0, goud: 0};
+			  	var i = 999;
+				var interval;
 
-				if ( i >= yearDate) {
-					interval.stop();
-		  			updateBars(d3.map(counter(allYears[i], result)).entries())
-		  			updateYear(i)
-		  		}
-				i ++;
-		  }, 100);
+			  	var interval = d3.interval(function(elapsed) {
+			  		var year = i
+			  		updateBars(d3.map(counter(allYears[i], result)).entries())
+			  		updateYear(i)
 
-		  function buttonClick() {
+			  		if ( i >= yearDate) {
+			  			interval.stop();
+			  			updateBars(d3.map(counter(allYears[i], result)).entries())
+			  			updateYear(i)
+			  		}
+			  		i ++;
+			    }, 100);
+			  }
 
-		  }
+		  intervalFunc(allYears)
 
 		  function updateBars(data) {
 			var transitionTime = 100;
@@ -431,8 +433,5 @@ function makeD3Chart(allYears) {
 			  counterDiv
 				.html((activeYear));
 		  }
-
-		  document.querySelector(".restart").addEventListener("click", buttonClick);
-
 
 }
