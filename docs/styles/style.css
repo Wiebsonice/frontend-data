@@ -5,7 +5,9 @@ Body {
     justify-content: center;
     align-items: space-evenly;
     height: 100vh;
+    font-family: sans-serif;
 }
+
 h1, h2 {
     color: #373737;
     width: 100%;
@@ -20,7 +22,7 @@ path, line {
     stroke: grey;
 }
 .tick line {
-    opacity: 0;
+
 }
 .tick text {
     text-transform: capitalize;
@@ -38,6 +40,11 @@ text {
     position: relative;
 }
 
+.counterDiv {
+    position: absolute;
+    font-family: 'helvetica', sans-serif;
+    font-size: 80px;
+}
 
 .toolTip {
   position: absolute;

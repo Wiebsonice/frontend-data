@@ -262,34 +262,7 @@ function testObj(dataa) {
 
 function makeD3Chart(allYears) {
 	// console.log(allYears)
-		var data = [{
-					"key": "ijzer",
-					"value": 121,
-	        },
-	            {
-					"key": "hout",
-	                "value": 6913,
-	        },
-	            {
-					"key": "brons",
-	                "value": 253,
-	        },
-	            {
-					"key": "aarde",
-	                "value": 482,
-	        },
-	            {
-					"key": "klei",
-	                "value": 105,
-	        },
-	            {
-					"name": "koper",
-	                "value":  147,
-	        },
-	            {
-					"key": "goud",
-	                "value": 296,
-	        }];
+		var data = [{"key": "ijzer","value": 121,},{"key": "hout","value": 6913},{"key": "brons","value": 253},{"key": "aarde","value": 482},{"key": "klei","value": 105},{"name": "koper","value":  147},{"key": "goud","value": 296}];
 
 			var myColor = d3.scaleOrdinal().domain(data)
   							.range(["#f0c989", "#f0c989", "#5d5b5b", "#6e3d34", "#b08d57", "#b29700", "#9b7653", "#caa472"])
@@ -300,9 +273,6 @@ function makeD3Chart(allYears) {
         data = data.sort(function (a, b) {
             return d3.ascending(a.value, b.value);
         })
-
-		// tooltip:
-		var tooltip = d3.select("body").append("div").attr("class", "toolTip");
 
 		// set the dimensions and margins of the graph
 		var margin = {top: 20, right: 20, bottom: 30, left: 70},
@@ -323,14 +293,25 @@ function makeD3Chart(allYears) {
 		var svg = d3.select("body").append("svg")
 		    .attr("width", width + margin.left + margin.right)
 		    .attr("height", height + margin.top + margin.bottom)
+			.attr("class", "outerGraph")
 		  .append("g")
 		    .attr("transform",
 		          "translate(" + margin.left + "," + margin.top + ")");
 
-		  // format the data
-		  data.forEach(function(d) {
-		    d.value = +d.value;
-		  });
+		// Get sizes from svg container
+		var rect = document.querySelector(".outerGraph").getBoundingClientRect();
+
+		// tooltip:
+  		var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+
+  		// Counter:
+  		var counterDiv = d3.select("body").append("div").attr("class", "counterDiv");
+		console.log("calc(100% - " + rect.right + "px)")
+  		counterDiv
+  		  .style("right", "calc(100% - " + rect.right + "px + 20px)")
+  		  .style("bottom", "calc(100% - " + rect.bottom + "px + 50px)")
+  		  .style("opacity", 1)
+  		  .style("display", "inline-block");
 
 		  // Scale the range of the data in the domains
 		  x.domain([0, d3.max(data, function(d){ return d.value; })])
@@ -354,14 +335,15 @@ function makeD3Chart(allYears) {
 
 		  // add the x Axis
 		  svg.append("g")
-		      .attr("transform", "translate(0," + height + ")")
+		  	  .attr("class", "xAxis")
+		      .attr("transform", "translate(0, -25)")
 		      .call(d3.axisBottom(x));
 
 		  // add the y Axis
-		  // svg.append("g")
-		  // 	  .attr("class", "yaxis")
-		  //     .call(d3.axisLeft(y));
-
+		  svg.append("g")
+		  	  .attr("class", "yAxis")
+			  .tickSize(-(height-margin.top-margin.bottom), 0, 0)
+		      .call(d3.axisLeft(y));
 
 			var yearDate = new Date().getFullYear();
   			var result = {ijzer: 0, hout: 0, brons: 0, aarde: 0, klei: 0, koper: 0, goud: 0};
@@ -371,10 +353,12 @@ function makeD3Chart(allYears) {
 
 			var interval = d3.interval(function(elapsed) {
 		  		var year = i
-				console.log(i)
+				// console.log(i)
 				// console.log(counter(allYears[i], result))
 				// console.log(d3.map(counter(allYears[i], result)).entries())
 				updateBars(d3.map(counter(allYears[i], result)).entries())
+				updateYear(i)
+
 		  		if (i >= yearDate){
 		  			result = d3.map(counter(allYears[i], result)).entries()
 		  			console.log("result: ", result)
@@ -383,17 +367,12 @@ function makeD3Chart(allYears) {
 		  		}
 				i ++;
 			  // console.log(elapsed);
-		  }, 10);
+		  }, 25);
 
 		  function updateBars(data) {
 			data = data.sort(function (a, b) {
 	            return d3.ascending(a.value, b.value);
 	        })
-
-			x.domain([0, d3.max(data, function(d){ return d.value; })])
-			// y.domain(data.map(function(d) { return d.key; }));
-			// svg.append("g")
-  		    //   .call(d3.axisLeft(y));
 
 			var bars = svg.selectAll(".bar")
 			bars
@@ -408,5 +387,22 @@ function makeD3Chart(allYears) {
 					.style("display", "inline-block")
 					.html((d.key) + "<br>" + (d.value));
 			  })
+			y.domain(data.map(function(d) { return d.key; }));
+			x.domain([0, d3.max(data, function(d){ return d.value; })])
+
+  			svg.select(".xAxis")
+				.transition()
+				.duration(100)
+  				.call(d3.axisBottom(x));
+			svg.select(".yAxis")
+	  			.transition()
+				.duration(100)
+	  			.call(d3.axisLeft(y));
+		  }
+
+		  function updateYear(activeYear) {
+			  // console.log(activeYear)
+			  counterDiv
+				.html((activeYear));
 		  }
 }
