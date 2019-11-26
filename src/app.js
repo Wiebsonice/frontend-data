@@ -379,6 +379,10 @@ function makeD3Chart(allYears) {
 				i ++;
 		  }, 100);
 
+		  function buttonClick() {
+
+		  }
+
 		  function updateBars(data) {
 			var transitionTime = 100;
 			data = data.sort(function (a, b) {
@@ -427,4 +431,8 @@ function makeD3Chart(allYears) {
 			  counterDiv
 				.html((activeYear));
 		  }
+
+		  document.querySelector(".restart").addEventListener("click", buttonClick);
+
+
 }

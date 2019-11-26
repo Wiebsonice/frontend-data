@@ -8,6 +8,16 @@ Body {
     font-family: sans-serif;
 }
 
+.restart {
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+    height: 20%;
+    width: 20%;
+    background: red;
+}
+
 h1, h2 {
     color: #373737;
     width: 100%;
