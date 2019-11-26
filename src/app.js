@@ -204,23 +204,23 @@ function d3Chart(data) {
 	// timeOut(allYears)
 }
 
-function timeOut(data){
-	var yearDate = new Date().getFullYear();
-	var result = {ijzer: 0, hout: 0, brons: 0, aarde: 0, klei: 0, koper: 0, goud: 0};
-	var i = 0;
-	// var intervalTimer = setInterval(function(){
-	// 	i ++;
-	// 	var year = i
-	//
-	// 	var testdit = counter(data[i], result)
-	// 	if (i >= yearDate){
-	// 		clearInterval(intervalTimer)
-	// 		result = counter(data[i], result)
-	// 		console.log("result: ", result)
-	// 		console.log("Year: ", year)
-	// 	}
-	// }, 1);
-}
+// function timeOut(data){
+// 	// var yearDate = new Date().getFullYear();
+// 	// var result = {ijzer: 0, hout: 0, brons: 0, aarde: 0, klei: 0, koper: 0, goud: 0};
+// 	// var i = 0;
+// 	// var intervalTimer = setInterval(function(){
+// 	// 	i ++;
+// 	// 	var year = i
+// 	//
+// 	// 	var testdit = counter(data[i], result)
+// 	// 	if (i >= yearDate){
+// 	// 		clearInterval(intervalTimer)
+// 	// 		result = counter(data[i], result)
+// 	// 		console.log("result: ", result)
+// 	// 		console.log("Year: ", year)
+// 	// 	}
+// 	// }, 1);
+// }
 
 function counter(dataRow, result) {
 	// console.log(dataRow)
@@ -262,12 +262,11 @@ function testObj(dataa) {
 
 function makeD3Chart(allYears) {
 	// console.log(allYears)
-		var data = [{"key": "ijzer","value": 121,},{"key": "hout","value": 6913},{"key": "brons","value": 253},{"key": "aarde","value": 482},{"key": "klei","value": 105},{"name": "koper","value":  147},{"key": "goud","value": 296}];
+		var data = [{"key": "ijzer","value": 0,},{"key": "hout","value": 0},{"key": "brons","value": 0},{"key": "aarde","value": 0},{"key": "klei","value": 0},{"name": "koper","value":  0},{"key": "goud","value": 0}];
 
 			var myColor = d3.scaleOrdinal().domain(data)
   							.range(["#f0c989", "#f0c989", "#5d5b5b", "#6e3d34", "#b08d57", "#b29700", "#9b7653", "#caa472"])
 
-		console.log(data)
 
         //sort bars based on value
         data = data.sort(function (a, b) {
@@ -306,7 +305,6 @@ function makeD3Chart(allYears) {
 
   		// Counter:
   		var counterDiv = d3.select("body").append("div").attr("class", "counterDiv");
-		console.log("calc(100% - " + rect.right + "px)")
   		counterDiv
   		  .style("right", "calc(100% - " + rect.right + "px + 20px)")
   		  .style("bottom", "calc(100% - " + rect.bottom + "px + 50px)")
@@ -324,6 +322,7 @@ function makeD3Chart(allYears) {
 		    .data(data)
 		    .enter().append("rect")
 		      .attr("class", "bar")
+			  .attr("fill", function(d){return myColor(d.key) })
 		      //.attr("x", function(d) { return x(d.value); })
 		      .attr("width", function(d) {return x(d.value); } )
 		      .attr("y", function(d) { return y(d.key); })
@@ -331,7 +330,26 @@ function makeD3Chart(allYears) {
   		          tooltip
   		            .style("opacity", 0)
   		      })
+			  .on("mousemove", function(d){
+  				  tooltip
+  					.style("left", d3.event.pageX - 50 + "px")
+  					.style("top", d3.event.pageY - 70 + "px")
+  					.style("opacity", 1)
+  					.style("display", "inline-block")
+  					.html((d.key) + "<br>" + (d.value));
+  			  })
 		      .attr("height", y.bandwidth());
+
+		  var labels = svg.selectAll("text")
+	         .data(data)
+	         .enter()
+	         .append("text")
+	         .text((d) => d.value)
+	         .attr("y", function(d) { return y(d.key); })
+			 .attr("transform", "translate(5, 35)")
+	         .attr("x", (d, i) => d.value)
+
+		  var formatxAxis = d3.format('.0f');
 
 		  // add the x Axis
 		  svg.append("g")
@@ -348,27 +366,21 @@ function makeD3Chart(allYears) {
   			var result = {ijzer: 0, hout: 0, brons: 0, aarde: 0, klei: 0, koper: 0, goud: 0};
   			var i = 999;
 
-			console.log(d3.map(counter(allYears[999], result)).entries())
-
 			var interval = d3.interval(function(elapsed) {
 		  		var year = i
-				// console.log(i)
-				// console.log(counter(allYears[i], result))
-				// console.log(d3.map(counter(allYears[i], result)).entries())
 				updateBars(d3.map(counter(allYears[i], result)).entries())
 				updateYear(i)
 
-		  		if (i >= yearDate){
-		  			result = d3.map(counter(allYears[i], result)).entries()
-		  			console.log("result: ", result)
-		  			console.log("Year: ", year)
+				if ( i >= yearDate) {
 					interval.stop();
+		  			updateBars(d3.map(counter(allYears[i], result)).entries())
+		  			updateYear(i)
 		  		}
 				i ++;
-			  // console.log(elapsed);
-		  }, 25);
+		  }, 100);
 
 		  function updateBars(data) {
+			var transitionTime = 100;
 			data = data.sort(function (a, b) {
 	            return d3.ascending(a.value, b.value);
 	        })
@@ -376,31 +388,42 @@ function makeD3Chart(allYears) {
 			var bars = svg.selectAll(".bar")
 			bars
 		  	.data(data)
-		  	.attr("width", function(d) { return x(d.value); } )
 			.attr("fill", function(d){return myColor(d.key) })
-			.on("mousemove", function(d){
-				  tooltip
-					.style("left", d3.event.pageX - 50 + "px")
-					.style("top", d3.event.pageY - 70 + "px")
-					.style("opacity", 1)
-					.style("display", "inline-block")
-					.html((d.key) + "<br>" + (d.value));
-			  })
+			.transition()
+			.duration(200)
+		  	.attr("width", function(d) { return x(d.value); } )
+			.attr("y", function(d) { return y(d.key); });
+
+
 			y.domain(data.map(function(d) { return d.key; }));
 			x.domain([0, d3.max(data, function(d){ return d.value; })])
 
   			svg.select(".xAxis")
 				.transition()
-				.duration(100)
+				.duration(transitionTime)
   				.call(d3.axisBottom(x));
 			svg.select(".yAxis")
 	  			.transition()
-				.duration(100)
+				.duration(200)
 	  			.call(d3.axisLeft(y));
+
+			labels.data(data)
+				.text((d) => d.value)
+				.style("opacity", function(d) {
+		            if (d.value >= 1) {return 1}
+		            else { return 0}
+		        ;})
+				.transition()
+				.duration(200)
+				.attr("y", function(d) { return y(d.key); })
+				.attr("transform", "translate(0, 33)")
+				.attr("x", function(d) { return x(d.value) - 20; });
+
+			// tooltip.data(data)
+			// .html((d.key) + "<br>" + (d.value));
 		  }
 
 		  function updateYear(activeYear) {
-			  // console.log(activeYear)
 			  counterDiv
 				.html((activeYear));
 		  }

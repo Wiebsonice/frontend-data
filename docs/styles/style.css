@@ -36,7 +36,7 @@ text {
 }
 .bar {
     /* fill: #72A5B8; */
-    transition: all ease .7s;
+    /* transition: all ease .7s; */
     position: relative;
 }
 
