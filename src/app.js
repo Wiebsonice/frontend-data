@@ -263,7 +263,6 @@ function testObj(dataa) {
 function makeD3Chart(allYears) {
 	// console.log(allYears)
 		var data = [{"key": "ijzer","value": 0,},{"key": "hout","value": 0},{"key": "brons","value": 0},{"key": "aarde","value": 0},{"key": "klei","value": 0},{"name": "koper","value":  0},{"key": "goud","value": 0}];
-
 			var myColor = d3.scaleOrdinal().domain(data)
   							.range(["#f0c989", "#f0c989", "#5d5b5b", "#6e3d34", "#b08d57", "#b29700", "#9b7653", "#caa472"])
 
@@ -321,8 +320,8 @@ function makeD3Chart(allYears) {
             .append("g")
 		    .data(data)
 		    .enter().append("rect")
-		      .attr("class", "bar")
-			  .attr("fill", function(d){return myColor(d.key) })
+			  // .attr("fill", function(d){return myColor(d.key) })
+			  .attr("class", function(d){return "bar " + d.key })
 		      //.attr("x", function(d) { return x(d.value); })
 		      .attr("width", function(d) {return x(d.value); } )
 		      .attr("y", function(d) { return y(d.key); })
@@ -368,13 +367,17 @@ function makeD3Chart(allYears) {
 			  function intervalFunc(allYears) {
 			  	var yearDate = new Date().getFullYear();
 			  	var result = {ijzer: 0, hout: 0, brons: 0, aarde: 0, klei: 0, koper: 0, goud: 0};
-			  	var i = 999;
+			  	var i = 0;
 				var interval;
 
 			  	var interval = d3.interval(function(elapsed) {
 			  		var year = i
-			  		updateBars(d3.map(counter(allYears[i], result)).entries())
-			  		updateYear(i)
+					updateYear(i)
+					var counterData = d3.map(counter(allYears[i], result)).entries()
+
+					if(i % 20 === 0){
+						updateBars(counterData)
+			        }
 
 			  		if ( i >= yearDate) {
 			  			interval.stop();
@@ -382,7 +385,7 @@ function makeD3Chart(allYears) {
 			  			updateYear(i)
 			  		}
 			  		i ++;
-			    }, 100);
+			    }, 1);
 			  }
 
 		  intervalFunc(allYears)
@@ -397,8 +400,9 @@ function makeD3Chart(allYears) {
 			bars
 		  	.data(data)
 			.attr("fill", function(d){return myColor(d.key) })
+			.attr("class", function(d){return "bar " + d.key })
 			.transition()
-			.duration(200)
+			// .duration(200)
 		  	.attr("width", function(d) { return x(d.value); } )
 			.attr("y", function(d) { return y(d.key); });
 
@@ -408,11 +412,11 @@ function makeD3Chart(allYears) {
 
   			svg.select(".xAxis")
 				.transition()
-				.duration(transitionTime)
+				// .duration(transitionTime)
   				.call(d3.axisBottom(x));
 			svg.select(".yAxis")
 	  			.transition()
-				.duration(200)
+				// .duration(200)
 	  			.call(d3.axisLeft(y));
 
 			labels.data(data)
@@ -422,7 +426,7 @@ function makeD3Chart(allYears) {
 		            else { return 0}
 		        ;})
 				.transition()
-				.duration(200)
+				// .duration(200)
 				.attr("y", function(d) { return y(d.key); })
 				.attr("transform", "translate(0, 33)")
 				.attr("x", function(d) {
