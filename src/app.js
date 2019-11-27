@@ -302,84 +302,33 @@ function makeD3Chart(allYears) {
 		//enable defs
 		var defs = svg.append('svg:defs');
 
-		// Defs for images
-		// Aarde
-		defs.append("svg:pattern")
-		    .attr("id", "aarde")
-		    .attr("width", 55)
-		    .attr("height", 55)
-		    .attr("patternUnits", "userSpaceOnUse")
-		    .append("svg:image")
-		    .attr("xlink:href", 'https://static.planetminecraft.com/files/resource_media/screenshot/1236/pack_3530346.jpg')
-		    .attr("width", 55)
-		    .attr("height", 55)
+		var materialImgArr = [
+			{ material: "aarde", url: "https://static.planetminecraft.com/files/resource_media/screenshot/1236/pack_3530346.jpg"},
+			{ material: "hout", url: "https://lh3.googleusercontent.com/jThaL5Qb1SRGBrxs9SEkSmuJu2p7InXKVawlyRsyt9il_BnsE9rZhsG_5RatPeFx97q5nuVFE3VWjrzaDwgVDg"},
+			{ material: "koper", url: "https://lh3.googleusercontent.com/PaIsOYu8KvxKNf3HBfL9iR-KHXiosdhX4qAdcw615I5Xn3DPEUOHZ9q0J899C31s409blV83k4BYWPx0GEqjzg"},
+			{ material: "klei", url: "https://lh3.googleusercontent.com/6cWf1CSNI0OTLHInMQI5gHmWrJlbbPDWoyHTYQAKUewAeeOuxzxrh8U0wbVeNQCX2FbHQqyNKA1y-z84chsy"},
+			{ material: "ijzer", url: "https://lh3.googleusercontent.com/r6hcRC36CzWCl30MUbabHMUI_KT_yFarwA2bFmBMnvYJ4KpesmjTQvGM_-5rn64JbJYzQRf7N8rYrm0q_BE"},
+			{ material: "goud", url: "https://www.tynker.com/minecraft/api/block?id=5adf641d1c36d1c16b8b4585&w=800&h=800&width=800&height=800"},
+			{ material: "brons", url: "https://www.tynker.com/minecraft/api/block?id=57277eeb65e4f220738b456d&w=800&h=800&width=800&height=800"}
+		]
 
-		// hout
-		defs.append("svg:pattern")
-		    .attr("id", "hout")
-		    .attr("width", 55)
-		    .attr("height", 55)
-		    .attr("patternUnits", "userSpaceOnUse")
-		    .append("svg:image")
-		    .attr("xlink:href", 'https://lh3.googleusercontent.com/jThaL5Qb1SRGBrxs9SEkSmuJu2p7InXKVawlyRsyt9il_BnsE9rZhsG_5RatPeFx97q5nuVFE3VWjrzaDwgVDg')
-		    .attr("width", 55)
-		    .attr("height", 55)
+		// set defs aan de hand van materialImgArr
+		function defRhymz(id, url) {
+			defs.append('svg:pattern')
+				.attr('id', `${id}`)
+				.attr("width", 55)
+			    .attr("height", 55)
+			    .attr("patternUnits", "userSpaceOnUse")
+			    .append("svg:image")
+				.attr("xlink:href", `${url}`)
+			    .attr("width", 55)
+			    .attr("height", 55)
+		}
 
-		// koper
-		defs.append("svg:pattern")
-		    .attr("id", "koper")
-		    .attr("width", 55)
-		    .attr("height", 55)
-		    .attr("patternUnits", "userSpaceOnUse")
-		    .append("svg:image")
-		    .attr("xlink:href", 'https://lh3.googleusercontent.com/PaIsOYu8KvxKNf3HBfL9iR-KHXiosdhX4qAdcw615I5Xn3DPEUOHZ9q0J899C31s409blV83k4BYWPx0GEqjzg')
-		    .attr("width", 55)
-		    .attr("height", 55)
-
-		// klei
-		defs.append("svg:pattern")
-		    .attr("id", "klei")
-		    .attr("width", 55)
-		    .attr("height", 55)
-		    .attr("patternUnits", "userSpaceOnUse")
-		    .append("svg:image")
-		    .attr("xlink:href", 'https://lh3.googleusercontent.com/6cWf1CSNI0OTLHInMQI5gHmWrJlbbPDWoyHTYQAKUewAeeOuxzxrh8U0wbVeNQCX2FbHQqyNKA1y-z84chsy')
-		    .attr("width", 55)
-		    .attr("height", 55)
-
-		// ijzer
-		defs.append("svg:pattern")
-		    .attr("id", "ijzer")
-		    .attr("width", 55)
-		    .attr("height", 55)
-		    .attr("patternUnits", "userSpaceOnUse")
-		    .append("svg:image")
-		    .attr("xlink:href", 'https://lh3.googleusercontent.com/r6hcRC36CzWCl30MUbabHMUI_KT_yFarwA2bFmBMnvYJ4KpesmjTQvGM_-5rn64JbJYzQRf7N8rYrm0q_BE')
-		    .attr("width", 55)
-		    .attr("height", 55)
-
-		// goud
-		defs.append("svg:pattern")
-			.attr("id", "goud")
-			.attr("width", 55)
-			.attr("height", 55)
-			.attr("patternUnits", "userSpaceOnUse")
-			.append("svg:image")
-			.attr("xlink:href", 'https://www.tynker.com/minecraft/api/block?id=5adf641d1c36d1c16b8b4585&w=800&h=800&width=800&height=800')
-			.attr("width", 55)
-			.attr("height", 55)
-
-		// brons
-		defs.append("svg:pattern")
-			.attr("id", "brons")
-			.attr("width", 55)
-			.attr("height", 55)
-			.attr("patternUnits", "userSpaceOnUse")
-			.append("svg:image")
-			.attr("xlink:href", 'https://www.tynker.com/minecraft/api/block?id=57277eeb65e4f220738b456d&w=800&h=800&width=800&height=800')
-			.attr("width", 55)
-			.attr("height", 55)
-
+		// for each loop
+		materialImgArr.forEach(material => {
+			defRhymz(material.material, material.url)
+		})
 
 		// tooltip:
   		var tooltip = d3.select("body").append("div").attr("class", "toolTip");
@@ -425,7 +374,6 @@ function makeD3Chart(allYears) {
 	         .data(data)
 	         .enter()
 	         .append("text")
-
 	         .text(function(d) { return d.key + ": " + d.value })
 	         .attr("y", function(d) { return y(d.key); })
 			 .attr("transform", "translate(5, 35)")
@@ -484,7 +432,6 @@ function makeD3Chart(allYears) {
 			.attr("fill", function(d){return myColor(d.key) })
 			.attr("class", function(d){return "bar " + d.key })
 			.transition()
-			// .duration(100)
 		  	.attr("width", function(d) { return x(d.value); } )
 			.attr("y", function(d) { return y(d.key); });
 
@@ -503,11 +450,9 @@ function makeD3Chart(allYears) {
 
   			svg.select(".xAxis")
 				.transition()
-				// .duration(transitionTime)
   				.call(d3.axisBottom(x));
 			svg.select(".yAxis")
 	  			.transition()
-				// .duration(200)
 	  			.call(d3.axisLeft(y));
 
 			labels.data(data)
@@ -517,20 +462,16 @@ function makeD3Chart(allYears) {
 		            else { return 0}
 		        ;})
 				.transition()
-				// .duration(200)
 				.attr("y", function(d) { return y(d.key); })
 				.attr("transform", "translate(0, 33)")
 				.attr("x", function(d) {
-					if (x(d.value) >= 800) {return x(d.value) - 65; }
+					if (x(d.value) >= 750) {return x(d.value) - 85; }
 					else {return x(d.value) + 20; }
 				})
 				.attr("fill", function(d) {
 					if (x(d.value) >= 800) {return "white" }
 					else {return "black" }
 				});
-
-			// tooltip.data(data)
-			// .html((d.key) + "<br>" + (d.value));
 		  }
 
 		  function updateYear(activeYear) {
