@@ -344,10 +344,12 @@ function makeD3Chart(allYears) {
 	         .data(data)
 	         .enter()
 	         .append("text")
-	         .text((d) => d.value)
+
+	         .text(function(d) { return d.key + ": " + d.value })
 	         .attr("y", function(d) { return y(d.key); })
 			 .attr("transform", "translate(5, 35)")
-	         .attr("x", (d, i) => d.value)
+	         .attr("x", function(d, i) { return d.value })
+			 .attr("text-transform", "capitalize")
 
 		  var formatxAxis = d3.format('.0f');
 
@@ -414,7 +416,7 @@ function makeD3Chart(allYears) {
 	  			.call(d3.axisLeft(y));
 
 			labels.data(data)
-				.text((d) => d.value)
+				.text(function(d) { return d.key + ": " + d.value})
 				.style("opacity", function(d) {
 		            if (d.value >= 1) {return 1}
 		            else { return 0}
@@ -423,7 +425,14 @@ function makeD3Chart(allYears) {
 				.duration(200)
 				.attr("y", function(d) { return y(d.key); })
 				.attr("transform", "translate(0, 33)")
-				.attr("x", function(d) { return x(d.value) - 20; });
+				.attr("x", function(d) {
+					if (x(d.value) >= 800) {return x(d.value) - 65; }
+					else {return x(d.value) + 20; }
+				})
+				.attr("fill", function(d) {
+					if (x(d.value) >= 800) {return "white" }
+					else {return "black" }
+				});
 
 			// tooltip.data(data)
 			// .html((d.key) + "<br>" + (d.value));
