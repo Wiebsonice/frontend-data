@@ -16,6 +16,11 @@ Een interactieve horse race die laat zien hoeveel beelden van een bepaalde beeld
   
 En Racen maar!
 
+## De eerste uitwerking (statisch)
+De eerste statische uitwerking is gedaan tijdens de vorrige opdracht. Dit was een relatief saaie versie die vooral voor kinderen niet echt spannend is. Wel gaf dit goed beeld van alle objecten tot nu toe. In de komende weken ga ik deze visualisaite pimpen en functionaliteiten toevoegen.
+
+![chart](https://github.com/Wiebsonice/functional-programming/raw/master/wiki-assets/chart.png)
+
 
 
 ## Getting Started
