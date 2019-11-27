@@ -1,27 +1,15 @@
 # Functional Programming
 
-Dit project is een concept uitwerking van een webapplicatie gemaakt in VueJs in opdracht voor het Tropenmuseum van uit het HvA.
+Dit project is een concept uitwerking van een datavisualisatie in D3 in opdracht voor het Tropenmuseum van uit het HvA.
 
-* [Het Concept](https://github.com/Wiebsonice/functional-programming/blob/master/README.md#het-concept)
-* [Getting started](https://github.com/Wiebsonice/functional-programming/blob/master/README.md#getting-started)
-* [Wiki](https://github.com/Wiebsonice/functional-programming/wiki)
+* [Het Concept](https://github.com/Wiebsonice/frontend-data/blob/master/README.md#het-concept)
+* [Getting started](https://github.com/Wiebsonice/frontend-data/blob/master/README.md#getting-started)
+* [Wiki](https://github.com/Wiebsonice/frontend-data/wiki)
 
-# De concepten
-Ik ben gaan nadenken over de verschillende concepten die ik kon bedenken voor datavisualisaties. Ik heb 3 concepten bedacht waarvan 1 redelijk gelijk is met de eerste opdracht. Alle concepten hebben een andere soort chart als concept. Uiteindelijk heb ik gekozen om **concept 3** verder uit te werken. Omdat dit een goede chart is om te animeren en een leerzamere chart is vergelelen met de andere concepten.
-
-## Concept 1: Spatial
-Voor het eerste concept wilde ik in landen laten zien of welke goden het vaakst afgebeeld worden door de beeldhouders, of welke beeldhoud technieken het meest gebruikt worden in de landen waar beelden vandaan komen.
-![Worldmap](https://github.com/Wiebsonice/functional-programming/blob/master/wiki-assets/world-sketch.png)
-
-De gebruiker kan ook op de landen klikken om te zien hoeveel de technieken gebruikt worden.
+# Het concept
+Hoe kun je een simpele maar toch effectieve datavisualisaite laten zien? Ik heb bij de vorrige obracht 3 verschillende concepten bedacht, bij deze opdracht ben ik verder gegaan met de horse race. De horserace laat goed zien hoeveel beelden er per jaar bij de collectie bijkwamen. En dan onderverdeeld per materiaal.
   
-## Concept 2: De Scale
-Na het hoorcollege van maandag vertelde de spreker dat er een paar formaten waren die hij wilde gebruiken in de tentoonstelling van over het tropenmuseum. Hij wilde graag een scale, ik had reeds al een scale gemaakt, als vorrige opdracht en zat er over te denken die overnieuw te doen, en dan alle beelden te pakken. Deze beelden zijn dan te centreren weer onder de hoogte die ingevoerd word door de gebruiker.
-![the scale](https://github.com/Wiebsonice/functional-programming/blob/master/wiki-assets/boeddha-scale.png)
-  
-Dit is ook makkelijk om over te zetten naar een analoge wereld.
-  
-## Concept 3: Horse race!
+## Concept: Horse race!
 Een interactieve horse race die laat zien hoeveel beelden van een bepaalde beeldhouwtechniek er elk jaar bijkwamen. Om zo de technieken te kunnen zien per jaar en hoe deze in populairiteit toe- of afnamen. De bar chart begint op een set year, en loopt op tot het nieuwste object in de database.
 
 ![timeline schets](https://github.com/Wiebsonice/functional-programming/blob/master/wiki-assets/timeline-schets.png)
@@ -44,7 +32,7 @@ Volg deze stappen om het project draaiend te krijgen
 2. Clone de repo
 
 ```
-git clone https://github.com/Wiebsonice/functional-programming.git
+git clone https://github.com/Wiebsonice/frontend-data.git
 ```
 
 3. Instaleer de benodigde node medules
@@ -78,15 +66,13 @@ npm run build
     public/index.html
 ```
 
-## Deployment
-Soon meer uitleg
-
 ## Gebouwd met
 
 * [Node](https://nodejs.org/en/) - Dependency Management
 * [Rollup](https://rollupjs.org/) - Pagebuilder
 * [NMVW API](https://collectie.wereldculturen.nl/) - API voor data
 * [SparQl](https://www.w3.org/TR/rdf-sparql-query/) - SpaQl taal van de database
+* [D3](https://d3js.org/) - D3 library voor de datavisualisatie
   
 ## Features
 
@@ -155,6 +141,9 @@ Een aantal waarden die ik binnen krijg heb ik clientside opgelost. Zo heb ik de 
 
 ### bronnen
 * Horizontal bar chart [Blocks example](https://bl.ocks.org/caravinden/eb0e5a2b38c8815919290fa838c6b63b)
+* Tooltip [Simple Tooltip d3](http://bl.ocks.org/d3noob/a22c42db65eb00d4e369)
+* Img fill [Fill svg el with img](https://stackoverflow.com/questions/25881186/d3-fill-shape-with-image-using-pattern)
+* D3.interval() [D3.interval()](https://github.com/d3/d3-timer)
 * Sparql Querry [Ivo Zandhuis](#)
 
 ## License
