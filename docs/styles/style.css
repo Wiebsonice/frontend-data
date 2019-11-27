@@ -3,7 +3,7 @@ Body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: space-evenly;
+    align-content: space-evenly;
     height: 100vh;
     font-family: sans-serif;
 }
@@ -18,13 +18,17 @@ Body {
     background: red;
 }
 
-h1, h2 {
+h1, h2, h3, p {
     color: #373737;
     width: 100%;
     text-align: center;
 }
 h1 {
     align-self: flex-start;
+}
+
+p {
+    padding: 0 30vw;
 }
 
 path, line {
@@ -54,6 +58,10 @@ text {
     position: absolute;
     font-family: 'helvetica', sans-serif;
     font-size: 80px;
+}
+
+.outerGraph {
+    fill: white;
 }
 
 .toolTip {
