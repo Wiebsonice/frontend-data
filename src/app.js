@@ -299,6 +299,88 @@ function makeD3Chart(allYears) {
 		// Get sizes from svg container
 		var rect = document.querySelector(".outerGraph").getBoundingClientRect();
 
+		//enable defs
+		var defs = svg.append('svg:defs');
+
+		// Defs for images
+		// Aarde
+		defs.append("svg:pattern")
+		    .attr("id", "dirt")
+		    .attr("width", 55)
+		    .attr("height", 55)
+		    .attr("patternUnits", "userSpaceOnUse")
+		    .append("svg:image")
+		    .attr("xlink:href", 'https://static.planetminecraft.com/files/resource_media/screenshot/1236/pack_3530346.jpg')
+		    .attr("width", 55)
+		    .attr("height", 55)
+
+		// hout
+		defs.append("svg:pattern")
+		    .attr("id", "hout")
+		    .attr("width", 55)
+		    .attr("height", 55)
+		    .attr("patternUnits", "userSpaceOnUse")
+		    .append("svg:image")
+		    .attr("xlink:href", 'https://lh3.googleusercontent.com/jThaL5Qb1SRGBrxs9SEkSmuJu2p7InXKVawlyRsyt9il_BnsE9rZhsG_5RatPeFx97q5nuVFE3VWjrzaDwgVDg')
+		    .attr("width", 55)
+		    .attr("height", 55)
+
+		// koper
+		defs.append("svg:pattern")
+		    .attr("id", "koper")
+		    .attr("width", 55)
+		    .attr("height", 55)
+		    .attr("patternUnits", "userSpaceOnUse")
+		    .append("svg:image")
+		    .attr("xlink:href", 'https://lh3.googleusercontent.com/PaIsOYu8KvxKNf3HBfL9iR-KHXiosdhX4qAdcw615I5Xn3DPEUOHZ9q0J899C31s409blV83k4BYWPx0GEqjzg')
+		    .attr("width", 55)
+		    .attr("height", 55)
+
+		// klei
+		defs.append("svg:pattern")
+		    .attr("id", "klei")
+		    .attr("width", 55)
+		    .attr("height", 55)
+		    .attr("patternUnits", "userSpaceOnUse")
+		    .append("svg:image")
+		    .attr("xlink:href", 'https://lh3.googleusercontent.com/6cWf1CSNI0OTLHInMQI5gHmWrJlbbPDWoyHTYQAKUewAeeOuxzxrh8U0wbVeNQCX2FbHQqyNKA1y-z84chsy')
+		    .attr("width", 55)
+		    .attr("height", 55)
+
+		// ijzer
+		defs.append("svg:pattern")
+		    .attr("id", "ijzer")
+		    .attr("width", 55)
+		    .attr("height", 55)
+		    .attr("patternUnits", "userSpaceOnUse")
+		    .append("svg:image")
+		    .attr("xlink:href", 'https://lh3.googleusercontent.com/r6hcRC36CzWCl30MUbabHMUI_KT_yFarwA2bFmBMnvYJ4KpesmjTQvGM_-5rn64JbJYzQRf7N8rYrm0q_BE')
+		    .attr("width", 55)
+		    .attr("height", 55)
+
+		// goud
+		defs.append("svg:pattern")
+			.attr("id", "goud")
+			.attr("width", 55)
+			.attr("height", 55)
+			.attr("patternUnits", "userSpaceOnUse")
+			.append("svg:image")
+			.attr("xlink:href", 'https://www.tynker.com/minecraft/api/block?id=5adf641d1c36d1c16b8b4585&w=800&h=800&width=800&height=800')
+			.attr("width", 55)
+			.attr("height", 55)
+
+		// brons
+		defs.append("svg:pattern")
+			.attr("id", "brons")
+			.attr("width", 55)
+			.attr("height", 55)
+			.attr("patternUnits", "userSpaceOnUse")
+			.append("svg:image")
+			.attr("xlink:href", 'https://www.tynker.com/minecraft/api/block?id=57277eeb65e4f220738b456d&w=800&h=800&width=800&height=800')
+			.attr("width", 55)
+			.attr("height", 55)
+
+
 		// tooltip:
   		var tooltip = d3.select("body").append("div").attr("class", "toolTip");
 
@@ -385,7 +467,7 @@ function makeD3Chart(allYears) {
 			  			updateYear(i)
 			  		}
 			  		i ++;
-			    }, 1);
+			    }, 25);
 			  }
 
 		  intervalFunc(allYears)
@@ -402,10 +484,30 @@ function makeD3Chart(allYears) {
 			.attr("fill", function(d){return myColor(d.key) })
 			.attr("class", function(d){return "bar " + d.key })
 			.transition()
-			// .duration(200)
+			// .duration(100)
 		  	.attr("width", function(d) { return x(d.value); } )
 			.attr("y", function(d) { return y(d.key); });
 
+			svg.selectAll(".aarde").attr("fill", function(d){return myColor(d.key) })
+			    .attr("fill", "url(#dirt)")
+
+			svg.selectAll(".hout").attr("fill", function(d){return myColor(d.key) })
+			    .attr("fill", "url(#hout)")
+
+			svg.selectAll(".brons").attr("fill", function(d){return myColor(d.key) })
+			    .attr("fill", "url(#brons)")
+
+			svg.selectAll(".koper").attr("fill", function(d){return myColor(d.key) })
+			    .attr("fill", "url(#koper)")
+
+			svg.selectAll(".klei").attr("fill", function(d){return myColor(d.key) })
+			    .attr("fill", "url(#klei)")
+
+			svg.selectAll(".ijzer").attr("fill", function(d){return myColor(d.key) })
+			    .attr("fill", "url(#ijzer)")
+
+			svg.selectAll(".goud").attr("fill", function(d){return myColor(d.key) })
+			    .attr("fill", "url(#goud)")
 
 			y.domain(data.map(function(d) { return d.key; }));
 			x.domain([0, d3.max(data, function(d){ return d.value; })])

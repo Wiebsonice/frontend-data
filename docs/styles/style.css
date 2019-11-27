@@ -61,8 +61,9 @@ text {
   display: none;
   min-width: 80px;
   height: auto;
-  background: none repeat scroll 0 0 #ffffff;
-  border: 1px solid #6F257F;
+  background: none repeat scroll 0 0 rgba(0,0,0,.5);
+  color: white;
+  text-transform: capitalize;
   padding: 14px;
   text-align: center;
   pointer-events: none;
