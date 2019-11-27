@@ -305,7 +305,7 @@ function makeD3Chart(allYears) {
 		// Defs for images
 		// Aarde
 		defs.append("svg:pattern")
-		    .attr("id", "dirt")
+		    .attr("id", "aarde")
 		    .attr("width", 55)
 		    .attr("height", 55)
 		    .attr("patternUnits", "userSpaceOnUse")
@@ -488,26 +488,15 @@ function makeD3Chart(allYears) {
 		  	.attr("width", function(d) { return x(d.value); } )
 			.attr("y", function(d) { return y(d.key); });
 
-			svg.selectAll(".aarde").attr("fill", function(d){return myColor(d.key) })
-			    .attr("fill", "url(#dirt)")
 
-			svg.selectAll(".hout").attr("fill", function(d){return myColor(d.key) })
-			    .attr("fill", "url(#hout)")
+			// All classes arr
+			var barClassArr = ["aarde", "hout", "brons", "koper", "klei", "ijzer", "goud"]
 
-			svg.selectAll(".brons").attr("fill", function(d){return myColor(d.key) })
-			    .attr("fill", "url(#brons)")
-
-			svg.selectAll(".koper").attr("fill", function(d){return myColor(d.key) })
-			    .attr("fill", "url(#koper)")
-
-			svg.selectAll(".klei").attr("fill", function(d){return myColor(d.key) })
-			    .attr("fill", "url(#klei)")
-
-			svg.selectAll(".ijzer").attr("fill", function(d){return myColor(d.key) })
-			    .attr("fill", "url(#ijzer)")
-
-			svg.selectAll(".goud").attr("fill", function(d){return myColor(d.key) })
-			    .attr("fill", "url(#goud)")
+			// assign classes to fill
+			barClassArr.forEach(el =>
+				svg.selectAll("." + el).attr("fill", function(d){return myColor(d.key) })
+				    .attr("fill", "url(#" + el + ")")
+			)
 
 			y.domain(data.map(function(d) { return d.key; }));
 			x.domain([0, d3.max(data, function(d){ return d.value; })])
