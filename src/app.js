@@ -197,11 +197,8 @@ function d3Chart(data) {
 		materialsPerYear.sort(function(x, y){
 		   return d3.ascending(x.year, y.year);
 		})
-		// console.log(materialsPerYear)
-	var allYears = testObj(materialsPerYear)
+	var allYears = fillInYears(materialsPerYear)
 	makeD3Chart(allYears);
-	// console.log(allYears)
-	// timeOut(allYears)
 }
 
 // function timeOut(data){
@@ -231,7 +228,7 @@ function counter(dataRow, result) {
 }
 
 
-function testObj(dataa) {
+function fillInYears(dataa) {
 	var yearDate = new Date().getFullYear();
 	var i;
 	var yearsObject = {}
@@ -415,7 +412,7 @@ function makeD3Chart(allYears) {
 			  			updateYear(i)
 			  		}
 			  		i ++;
-			    }, 25);
+			    }, 30);
 			  }
 
 		  intervalFunc(allYears)
