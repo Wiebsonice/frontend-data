@@ -10,12 +10,21 @@ Body {
 
 .restart {
     position: absolute;
-    left: 0;
-    top: 0;
+    text-align: center;
+    left: 50%;
+    bottom: 5px;
     cursor: pointer;
-    height: 20%;
+    padding: 10px 20px;
+    transform: translateX(-50%);
     width: 20%;
-    background: red;
+    background: rgba(255,255,255,.5);
+    border-bottom: white 2px solid;
+    transition: ease all .5s;
+}
+
+.restart:hover {
+    background: rgba(255,255,255,1);
+    border-bottom: black 2px solid;
 }
 
 h1, h2, h3, p {
